@@ -1,0 +1,10 @@
+{
+  "name": "jjsMagic",
+  "description": "example application using org-mode on the JVM",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "underscore": ">=1.6.0"
+  },
+  "jjunused":[ {"org-mode-parser": ">=0.1.1" } ] 
+}
