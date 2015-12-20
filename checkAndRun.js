@@ -1,64 +1,25 @@
 #!/Library/Java/JavaVirtualMachines/jdk1.8.0_40.jdk/Contents/Home/bin/jjs   -dump-on-error  --language=es6 -scripting
 
-/** -strict mode does not work with jvm-npm.js
+/** 
+  * A very simple js module to check if a local http URL is responding and opening then a page to it
+  * Could be handy to start a server and wait until the server gets up.
+  * To get started use
+  * npm install .
+  * to download org-mode-parser  
+  * NB: -strict mode does not work with jvm-npm.js
   * 
   * Ref http://docs.oracle.com/javase/8/docs/technotes/tools/windows/jjs.html
   * http://winterbe.com/posts/2014/04/05/java8-nashorn-tutorial/
- */
+  */
 
 
 
-/** Nodejs compatibility layer 
-https://github.com/nodyn/jvm-npm
-http://stackoverflow.com/questions/5168451/javascript-require-on-client-side
+/** Nodejs compatibility layer, a bit modified by JJ to ensure a small patching
+  * https://github.com/nodyn/jvm-npm
  */
 load('./nodejs-integration/jvm-npm.js');
-var u=require('underscore');
-var x = require('org-mode-parser');
-
-var requireBrowserSide = (function () {
-    var cache = {};
-    function loadScript(url) {
-        var xhr = new XMLHttpRequest(),
-            fnBody;
-        xhr.open('get', url, false);
-        xhr.send();
-        if (xhr.status === 200 && xhr.getResponseHeader('Content-Type') === 'application/x-javascript') {
-            fnBody = 'var exports = {};\n' + xhr.responseText + '\nreturn exports;';
-            cache[url] = (new Function(fnBody)).call({});
-        }
-    }
-    function resolve(module) {
-        //TODO resolve urls
-        return module;
-    }
-    function require(module) {
-        var url = resolve(module);
-        if (!Object.prototype.hasOwnProperty.call(cache, url)) {
-            loadScript(url);
-        }
-        return cache[url];
-    }
-    require.cache = cache;
-    require.resolve = resolve;
-    return require;
-}());
-
-
-
-load('http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js');
-
-
-var a = [
-  "Hydrogen",
-  "Helium",
-  "Lithium",
-  "Beryl­lium"
-];
-
-var a2 = a.map(function(s){ return s.length; });
-
-//var a3 = a.map( s => s.length );
+//var u=  require('underscore');
+//var OrgMode = require('org-mode-parser');
 
 
 function check(url){
@@ -121,3 +82,8 @@ checkAndRun("http://gioorgi.com");
 // Open the url via browser under windooze
 // under mac use open
 // under linux use firefox(?)
+// 
+// Local variables:
+// mode:js2
+// mode:company
+// End:
